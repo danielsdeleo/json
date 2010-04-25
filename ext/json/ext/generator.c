@@ -380,6 +380,26 @@ static int fitoa(int number, char *buf)
     return tmp - buf;
 }
 
+static int fltoa(long number, char *buf)
+{
+	static char digits[] = "0123456789";
+	long sign = number;
+	char* tmp = buf;
+
+	if (sign < 0) number = -number;
+    do *tmp++ = digits[number % 10]; while (number /= 10);
+	if (sign < 0) *tmp++ = '-';
+	freverse(buf, tmp - 1);
+    return tmp - buf;
+}
+
+
+static void fbuffer_append_long(FBuffer *fb, long number) {
+  char buf[20];
+  int len = fltoa(number, buf);
+  fbuffer_append(fb, buf, len);
+}
+
 static void fbuffer_append_integer(FBuffer *fb, int number)
 {
     char buf[12];
@@ -841,7 +861,7 @@ static void generate_json(FBuffer *buffer, VALUE Vstate, JSON_Generator_State *s
             fbuffer_append(buffer, "true", 4);
             break;
         case T_FIXNUM:
-            fbuffer_append_integer(buffer, FIX2INT(obj));
+            fbuffer_append_long(buffer, FIX2LONG(obj));
             break;
         case T_BIGNUM:
             tmp = rb_funcall(obj, i_to_s, 0);
