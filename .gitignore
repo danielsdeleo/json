@@ -2,3 +2,5 @@
 coverage
 pkg
 .nfs.*
+.rake_tasks~
+*.rbc
