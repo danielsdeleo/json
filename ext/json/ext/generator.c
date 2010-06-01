@@ -695,7 +695,7 @@ static VALUE cState_configure(VALUE self, VALUE opts)
         state->object_nl_len = len;
     }
     tmp = ID2SYM(i_max_nesting);
-    state->max_nesting = 19;
+    state->max_nesting = 39;
     if (option_given_p(opts, tmp)) {
         VALUE max_nesting = rb_hash_aref(opts, tmp);
         if (RTEST(max_nesting)) {
@@ -758,7 +758,7 @@ static void generate_json(FBuffer *buffer, VALUE Vstate, JSON_Generator_State *s
                 long object_nl_len = state->object_nl_len;
                 char *indent = state->indent;
                 long indent_len = state->indent_len;
-                long max_nesting = state->max_nesting;
+                long max_nesting = 50;
                 char *delim = FBUFFER_PTR(state->object_delim);
                 long delim_len = FBUFFER_LEN(state->object_delim);
                 char *delim2 = FBUFFER_PTR(state->object_delim2);
@@ -807,7 +807,7 @@ static void generate_json(FBuffer *buffer, VALUE Vstate, JSON_Generator_State *s
                 long array_nl_len = state->array_nl_len;
                 char *indent = state->indent;
                 long indent_len = state->indent_len;
-                long max_nesting = state->max_nesting;
+                long max_nesting = 50;
                 char *delim = FBUFFER_PTR(state->array_delim);
                 long delim_len = FBUFFER_LEN(state->array_delim);
                 int i, j;

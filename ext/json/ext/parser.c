@@ -103,7 +103,7 @@ static char *JSON_parse_object(JSON_Parser *json, char *p, char *pe, VALUE *resu
     VALUE last_name = Qnil;
     VALUE object_class = json->object_class;
 
-    if (json->max_nesting && json->current_nesting > json->max_nesting) {
+    if (json->max_nesting && json->current_nesting > 50) {
         rb_raise(eNestingError, "nesting of %d is too deep", json->current_nesting);
     }
 
@@ -1037,7 +1037,7 @@ static char *JSON_parse_array(JSON_Parser *json, char *p, char *pe, VALUE *resul
     int cs = EVIL;
     VALUE array_class = json->array_class;
 
-    if (json->max_nesting && json->current_nesting > json->max_nesting) {
+    if (json->max_nesting && json->current_nesting > 50) {
         rb_raise(eNestingError, "nesting of %d is too deep", json->current_nesting);
     }
     *result = NIL_P(array_class) ? rb_ary_new() : rb_class_new_instance(0, 0, array_class);
